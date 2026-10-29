@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Student Task Planner</title>
+  <meta name="description" content="Manage assignments, homework, exams and projects in one place." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">📘</span>
+      <div>
+        <h1>Smart Student Task Planner</h1>
+        <p class="sub">Plan smart. Study better.</p>
+      </div>
+    </div>
+    <div class="today" id="todayDate"></div>
+  </header>
+
+  <main class="container">
+    <!-- ===== Welcome + Stats ===== -->
+    <section class="welcome">
+      <h2>Welcome to Your Study Space!</h2>
+      <p>Here's an overview of your academic tasks.</p>
+    </section>
+
+    <section class="stats">
+      <div class="stat-card total"><span class="icon">📋</span><div><p>Total Tasks</p><h3 id="statTotal">0</h3></div></div>
+      <div class="stat-card pending"><span class="icon">⏳</span><div><p>Pending Tasks</p><h3 id="statPending">0</h3></div></div>
+      <div class="stat-card completed"><span class="icon">✅</span><div><p>Completed Tasks</p><h3 id="statCompleted">0</h3></div></div>
+      <div class="stat-card overdue"><span class="icon">⚠️</span><div><p>Overdue Tasks</p><h3 id="statOverdue">0</h3></div></div>
+    </section>
+
+    <div class="grid">
+      <!-- ===== Left column: form, progress, tip ===== -->
+      <aside class="side">
+        <section class="card">
+          <h3 id="formTitle">➕ Add New Task</h3>
+          <form id="taskForm" novalidate>
+            <input type="hidden" id="taskId" />
+            <label>Task Title *
+              <input type="text" id="title" placeholder="e.g. DBMS Assignment 2" />
+              <small class="error" id="errTitle"></small>
+            </label>
+            <label>Subject Name *
+              <input type="text" id="subject" placeholder="e.g. Database Systems" />
+              <small class="error" id="errSubject"></small>
+            </label>
+            <div class="row">
+              <label>Task Type
+                <select id="type">
+                  <option>Assignment</option><option>Homework</option>
+                  <option>Exam</option><option>Project</option><option>Other</option>
+                </select>
+              </label>
+              <label>Priority
+                <select id="priority">
+                  <option>High</option><option selected>Medium</option><option>Low</option>
+                </select>
+              </label>
+            </div>
+            <label>Due Date *
+              <input type="date" id="dueDate" />
+              <small class="error" id="errDate"></small>
+            </label>
+            <label>Notes (optional)
+              <textarea id="notes" rows="2" placeholder="Any extra details..."></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="btn primary" id="submitBtn">Add Task</button>
+              <button type="button" class="btn ghost hidden" id="cancelEdit">Cancel</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card">
+          <h3>📈 Progress Tracker</h3>
+          <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+          <p class="progress-text"><strong id="progressPercent">0%</strong> completed</p>
+          <p class="motivation" id="motivation"></p>
+        </section>
+
+        <section class="card tip-card">
+          <h3>💡 Study Tip of the Day</h3>
+          <p id="tipText"></p>
+          <button class="btn soft" id="newTipBtn">New Tip</button>
+        </section>
+      </aside>
+
+      <!-- ===== Right column: task list ===== -->
+      <section class="card tasks-panel">
+        <div class="tasks-head">
+          <h3>🗂️ My Tasks</h3>
+          <input type="search" id="search" placeholder="🔍 Search by title or subject..." />
+        </div>
+        <div class="toolbar">
+          <div class="filters" id="filters">
+            <button class="chip active" data-filter="all">All Tasks</button>
+            <button class="chip" data-filter="pending">Pending</button>
+            <button class="chip" data-filter="completed">Completed</button>
+            <button class="chip" data-filter="overdue">Overdue</button>
+            <button class="chip" data-filter="high">High Priority</button>
+          </div>
+          <select id="sort">
+            <option value="dateAsc">Due date (earliest)</option>
+            <option value="dateDesc">Due date (latest)</option>
+            <option value="priority">Priority (high → low)</option>
+          </select>
+        </div>
+        <div id="taskList" class="task-list"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">Smart Student Task Planner · Data saved online with Supabase</footer>
+
+  <!-- Toast message -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Supabase library (online database) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
